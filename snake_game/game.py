@@ -21,6 +21,19 @@ class Game:
             self.snake.grow()
             self.fruit = Fruit()
 
+    def check_game_over(self):
+        head = self.snake.body[0]
+
+        x, y = head
+        if (
+            x < 0 or x >= SCREEN_WIDTH or
+            y < 0 or y >= SCREEN_HEIGHT
+        ):
+            self.running = False
+
+        if head in self.snake.body[1:]:
+            self.running = False
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,6 +52,7 @@ class Game:
     def update(self):
         self.snake.move()
         self.check_collision()
+        self.check_game_over()
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -53,4 +67,15 @@ class Game:
             self.draw()
             self.clock.tick(self.FPS)
 
+        self.show_game_over()
         pygame.quit()
+
+    def show_game_over(self):
+        font = pygame.font.Font("fonts/PressStart2P-Regular.ttf", 30)
+        text = font.render("Game Over", True, (222, 137, 224))
+        text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+
+        self.screen.blit(text, text_rect)
+        pygame.display.update()
+
+        pygame.time.delay(2000)
