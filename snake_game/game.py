@@ -9,6 +9,8 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.logo = pygame.image.load("assets/logo.png").convert_alpha()
+        self.logo = pygame.transform.scale(self.logo, (140, 140))
         pygame.display.set_caption("Snake Game")
         self.clock = pygame.time.Clock()
         self.FPS = 10
@@ -61,6 +63,8 @@ class Game:
         pygame.display.update()
 
     def run(self):
+        self.show_start_menu()
+
         while self.running:
             self.handle_events()
             self.update()
@@ -79,3 +83,38 @@ class Game:
         pygame.display.update()
 
         pygame.time.delay(2000)
+
+    def show_start_menu(self):
+        font = pygame.font.Font("fonts/RussoOne-Regular.ttf", 40)
+        small_font = pygame.font.Font("fonts/RussoOne-Regular.ttf", 26)
+
+        title_text = font.render("Snake Game", True, (209, 130, 194))
+        instr_text = small_font.render("Presiona ENTER para jugar o ESC para salir", True, (111, 232, 230))
+
+        logo_rect = self.logo.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 120))
+        title_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 20))
+        instr_rect = instr_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 70))
+
+        waiting = True
+        clock = pygame.time.Clock()
+        while waiting:
+            self.screen.fill((0, 0, 0))  
+
+            self.screen.blit(self.logo, logo_rect)
+            self.screen.blit(title_text, title_rect)
+            self.screen.blit(instr_text, instr_rect)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:  # ENTER
+                        waiting = False
+                    elif event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        exit()
+
+            clock.tick(60)
