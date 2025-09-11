@@ -5,8 +5,8 @@ from config import BLOCK_SIZE, GREEN
 
 class Snake:
     def __init__(self):
-        self.body = [(100, 100), (80, 100), (60, 100)]  # posiciones iniciales
-        self.direction = (BLOCK_SIZE, 0)  # movimiento inicial hacia la derecha
+        self.body = [(5, 5), (4, 5), (3, 5)]  # posiciones iniciales
+        self.direction = (1, 0)  # movimiento inicial hacia la derecha
 
     def move(self):
         head_x, head_y = self.body[0]
@@ -22,4 +22,6 @@ class Snake:
 
     def draw(self, screen):
         for segment in self.body:
-            pygame.draw.rect(screen, GREEN, (*segment, BLOCK_SIZE, BLOCK_SIZE))
+            x = segment[0] * BLOCK_SIZE
+            y = segment[1] * BLOCK_SIZE
+            pygame.draw.rect(screen, GREEN, (x, y, BLOCK_SIZE, BLOCK_SIZE))

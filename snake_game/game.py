@@ -21,7 +21,7 @@ class Game:
     def check_collision(self):
         if self.snake.body[0] == self.fruit.position:
             self.snake.grow()
-            self.fruit = Fruit()
+            self.fruit.position = self.fruit.random_position()
 
     def check_game_over(self):
         head = self.snake.body[0]
@@ -43,13 +43,13 @@ class Game:
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    self.snake.change_direction((0, -20))
+                    self.snake.change_direction((0, -1))     #sube 1 bloque
                 elif event.key == pygame.K_DOWN:
-                    self.snake.change_direction((0, 20))
+                    self.snake.change_direction((0, 1))      #baja 1 bloque
                 elif event.key == pygame.K_LEFT:
-                    self.snake.change_direction((-20, 0))
+                    self.snake.change_direction((-1, 0))     #izquierda 1 bloque
                 elif event.key == pygame.K_RIGHT:
-                    self.snake.change_direction((20, 0))
+                    self.snake.change_direction((1, 0))
 
     def update(self):
         self.snake.move()
